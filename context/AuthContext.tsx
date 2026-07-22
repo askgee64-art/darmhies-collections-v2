@@ -71,8 +71,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const loginAdmin = async (userOrEmail: string, pass: string) => {
-    const validUser = process.env.NEXT_PUBLIC_ADMIN_USER;
-    const validPass = process.env.NEXT_PUBLIC_ADMIN_PASS;
+    const validUser = process.env.ADMIN_USER;
+    const validPass = process.env.ADMIN_PASS;
 
     if (!validUser || !validPass) {
       console.error("Admin credentials not configured in environment variables.");
