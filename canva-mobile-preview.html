@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canva UI Shopping App Design System — iOS Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary-color: #FF384C;
+      --primary-hover: #E02D40;
+      --primary-light: rgba(255, 56, 76, 0.12);
+      --bg-light: #F6F7FA;
+      --card-bg: #FFFFFF;
+      --text-dark: #0F0F14;
+      --text-muted: #8E8E9A;
+      --border-color: #EFEFEF;
+      --font-family: -apple-system, BlinkMacSystemFont, 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-family);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: #0A0A0D;
+      color: #111;
+      padding: 24px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* TOOLBAR CONTROL FOR BRAND (.ENV) */
+    .env-config-bar {
+      background: #181820;
+      border: 1px solid #282836;
+      color: white;
+      border-radius: 20px;
+      padding: 16px 24px;
+      width: 100%;
+      max-width: 1200px;
+      margin-bottom: 32px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+    }
+
+    .env-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #282836;
+      margin-bottom: 16px;
+    }
+
+    .env-title {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .env-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+
+    .env-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .env-field label {
+      font-size: 10px;
+      color: #8C8C9A;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .env-field input {
+      background: #09090C;
+      border: 1px solid #282836;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      outline: none;
+    }
+
+    .env-field input[type="color"] {
+      height: 36px;
+      padding: 2px;
+      cursor: pointer;
+    }
+
+    /* SHOWCASE GRID FOR 3 MOBILE SCREENS */
+    .app-showcase {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 32px;
+      width: 100%;
+      max-width: 1220px;
+    }
+
+    /* NATIVE IPHONE 15 PRO FRAME DESIGN */
+    .phone-mockup {
+      width: 360px;
+      height: 760px;
+      background: #FFFFFF;
+      border-radius: 50px;
+      border: 10px solid #23232C;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), inset 0 0 0 1px rgba(255,255,255,0.1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      shrink: 0;
+    }
+
+    /* DYNAMIC ISLAND NOTCH */
+    .dynamic-island {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 28px;
+      background: #000000;
+      border-radius: 20px;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .camera-lens {
+      width: 10px;
+      height: 10px;
+      background: #111;
+      border-radius: 50%;
+      border: 1px solid #222;
+    }
+
+    /* STATUS BAR FOR iOS */
+    .status-bar {
+      height: 44px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 0 24px 6px;
+      font-size: 12px;
+      font-weight: 700;
+      z-index: 40;
+    }
+
+    .status-bar.red {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .status-bar.transparent-overlay {
+      background-color: transparent;
+      color: white;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    }
+
+    .status-bar.white {
+      background-color: white;
+      color: var(--text-dark);
+    }
+
+    .status-icons {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    /* iOS BOTTOM HOME INDICATOR HANDLE */
+    .ios-home-indicator {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 130px;
+      height: 5px;
+      background: #111115;
+      border-radius: 10px;
+      z-index: 50;
+      opacity: 0.8;
+    }
+
+    .ios-home-indicator.light {
+      background: #FFFFFF;
+    }
+
+    /* ----------------------------------------------------------------- */
+    /* SCREEN 1: ONBOARDING WITH FULL BACKGROUND PHOTO */
+    /* ----------------------------------------------------------------- */
+    .screen-onboarding-bg {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background: #000000;
+      justify-content: space-between;
+    }
+
+    .onboarding-hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: brightness(0.92);
+    }
+
+    .onboarding-gradient-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg, 
+        rgba(0, 0, 0, 0.45) 0%, 
+        rgba(0, 0, 0, 0.1) 40%, 
+        rgba(0, 0, 0, 0.85) 75%, 
+        rgba(0, 0, 0, 0.98) 100%
+      );
+    }
+
+    .top-floating-tiles {
+      position: relative;
+      z-index: 10;
+      padding: 55px 18px 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .glass-tile {
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 16px;
+      padding: 6px;
+      height: 80px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    }
+
+    .glass-tile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .onboarding-glass-card {
+      position: relative;
+      z-index: 10;
+      padding: 24px 22px 34px;
+      text-align: center;
+      color: white;
+      background: rgba(18, 18, 22, 0.75);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-top-left-radius: 36px;
+      border-top-right-radius: 36px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+    }
+
+    .pill-brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 56, 76, 0.25);
+      border: 1px solid var(--primary-color);
+      color: #FF7081;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 99px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .onboarding-headline-bg {
+      font-size: 22px;
+      font-weight: 900;
+      color: #FFFFFF;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .onboarding-desc-bg {
+      font-size: 12px;
+      color: #CCCCCC;
+      line-height: 1.55;
+      margin-bottom: 22px;
+      font-weight: 500;
+      padding: 0 8px;
+    }
+
+    .btn-red-pill-bg {
+      width: 100%;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(255, 56, 76, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .signin-link-bg {
+      font-size: 12px;
+      color: #AAAAAA;
+      margin-top: 14px;
+      font-weight: 500;
+    }
+
+    .signin-link-bg strong {
+      color: var(--primary-color);
+      cursor: pointer;
+      text-decoration: underline;
+      margin-left: 3px;
+    }
+
+    /* ----------------------------------------------------------------- */
+    /* SCREEN 2: CANVA HOME DASHBOARD — iOS EDITION */
+    /* ----------------------------------------------------------------- */
+    .screen-home-ios {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-light);
+      overflow-y: auto;
+      padding-bottom: 75px;
+    }
+
+    .ios-curved-header-block {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+      border-bottom-left-radius: 32px;
+      border-bottom-right-radius: 32px;
+      padding: 10px 20px 24px;
+      color: white;
+      box-shadow: 0 12px 30px rgba(255, 56, 76, 0.25);
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .ios-location-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      padding: 5px 12px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .ios-bell-btn {
+      width: 34px;
+      height: 34px;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      font-size: 13px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .ios-bell-dot {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 7px;
+      height: 7px;
+      background: #FFFFFF;
+      border-radius: 50%;
+      box-shadow: 0 0 6px rgba(255,255,255,0.8);
+    }
+
+    .ios-search-bar {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(20px);
+      border-radius: 18px;
+      padding: 5px 5px 5px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .search-input-field {
+      border: none;
+      outline: none;
+      font-size: 12px;
+      color: var(--text-dark);
+      width: 100%;
+      font-weight: 600;
+    }
+
+    .ios-square-filter {
+      width: 36px;
+      height: 36px;
+      background: var(--primary-color);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+      shrink: 0;
+      box-shadow: 0 4px 12px rgba(255, 56, 76, 0.3);
+    }
+
+    .section-box {
+      padding: 16px 20px 0;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .section-title-text {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.3px;
+    }
+
+    .see-all-btn {
+      font-size: 11px;
+      color: var(--primary-color);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    /* SPECIAL FOR YOU BANNER */
+    .ios-promo-card {
+      background: #111115;
+      border-radius: 24px;
+      padding: 16px 18px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 128px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .promo-pill {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      font-size: 9px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 800;
+      display: inline-block;
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .promo-h {
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .promo-h span {
+      font-size: 20px;
+      color: var(--primary-color);
+      font-weight: 900;
+    }
+
+    .btn-claim-small {
+      margin-top: 8px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 7px 16px;
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(255, 56, 76, 0.4);
+    }
+
+    .model-cutout {
+      width: 105px;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 16px;
+    }
+
+    /* CATEGORIES BAR */
+    .categories-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .cat-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ios-cat-circle {
+      width: 56px;
+      height: 56px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #EAEAEA;
+      color: var(--primary-color);
+      font-size: 19px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+      transition: transform 0.2s ease;
+    }
+
+    .cat-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    /* FLASH SALE */
+    .ios-timer-badge {
+      font-size: 10px;
+      color: var(--primary-color);
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--primary-light);
+      padding: 3px 8px;
+      border-radius: 99px;
+    }
+
+    .pill-filters {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .filter-pill {
+      padding: 6px 16px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 700;
+      background: white;
+      color: var(--text-muted);
+      border: 1px solid #E8E8EE;
+      white-space: nowrap;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+
+    .filter-pill.active {
+      background: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+      box-shadow: 0 4px 12px rgba(255, 56, 76, 0.3);
+    }
+
+    .flash-products {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .ios-flash-card {
+      background: white;
+      border-radius: 20px;
+      padding: 10px;
+      border: 1px solid #EAEAEA;
+      position: relative;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.03);
+    }
+
+    .wish-circle {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 28px;
+      height: 28px;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(8px);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      font-size: 12px;
+      color: #999;
+    }
+
+    .flash-img {
+      width: 100%;
+      height: 105px;
+      object-fit: cover;
+      border-radius: 14px;
+      margin-bottom: 6px;
+      background: #F4F4F6;
+    }
+
+    .flash-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+
+    .flash-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .flash-price {
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--primary-color);
+    }
+
+    .flash-star {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    /* iOS FROSTED BOTTOM NAV BAR */
+    .ios-bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(0,0,0,0.06);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding-bottom: 12px;
+      z-index: 40;
+    }
+
+    .nav-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .nav-tab i {
+      font-size: 17px;
+    }
+
+    .nav-tab.active {
+      color: var(--primary-color);
+    }
+
+    /* ----------------------------------------------------------------- */
+    /* SCREEN 3: CANVA PRODUCT DETAILS PDP — iOS EDITION */
+    /* ----------------------------------------------------------------- */
+    .screen-pdp-ios {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #FFFFFF;
+      overflow-y: auto;
+      padding-bottom: 80px;
+    }
+
+    .ios-pdp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      font-size: 15px;
+      color: var(--text-dark);
+      position: relative;
+      z-index: 30;
+    }
+
+    .pdp-hero-box {
+      position: relative;
+      width: 100%;
+      height: 230px;
+      background: #F4F4F6;
+    }
+
+    .pdp-hero-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .thumbs-overlay-strip {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: -22px;
+      position: relative;
+      z-index: 10;
+      padding: 0 20px;
+    }
+
+    .thumb-preview {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      border: 2px solid white;
+      object-fit: cover;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+    }
+
+    .thumb-more-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--primary-color);
+      color: white;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid white;
+      box-shadow: 0 6px 14px rgba(255, 56, 76, 0.3);
+    }
+
+    .pdp-content-pad {
+      padding: 18px 22px;
+    }
+
+    .pdp-category-text {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .pdp-heading-title {
+      font-size: 19px;
+      font-weight: 900;
+      color: var(--text-dark);
+      margin: 2px 0 6px;
+      letter-spacing: -0.3px;
+    }
+
+    .pdp-paragraph {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-bottom: 18px;
+      font-weight: 500;
+    }
+
+    .pdp-paragraph strong {
+      color: var(--primary-color);
+      cursor: pointer;
+    }
+
+    .label-heading {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .size-boxes-list {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .size-chip {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid #EAEAEA;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-dark);
+      background: #FAFAFC;
+    }
+
+    .size-chip.active {
+      background: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+      box-shadow: 0 4px 12px rgba(255, 56, 76, 0.35);
+    }
+
+    .swatches-list {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .swatch-circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid white;
+      box-shadow: 0 0 0 1px #DDD;
+    }
+
+    .ios-pdp-sticky-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 75px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(0,0,0,0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 22px 10px;
+      z-index: 40;
+    }
+
+    .total-title {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .total-amount {
+      font-size: 17px;
+      font-weight: 900;
+      color: var(--text-dark);
+    }
+
+    .btn-cart-red-ios {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px 26px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(255, 56, 76, 0.35);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- DYNAMIC .ENV THEME CUSTOMIZER BAR -->
+  <div class="env-config-bar">
+    <div class="env-header">
+      <div class="env-title">
+        <i class="fa-solid fa-sliders"></i>
+        <span>Dynamic Brand Identity Configurator (.env Map)</span>
+      </div>
+      <span style="font-size: 11px; color: #4ADE80; font-weight: 800;">iOS EDITION READY</span>
+    </div>
+
+    <div class="env-grid">
+      <div class="env-field">
+        <label>Primary Color (Hex)</label>
+        <input type="color" id="env-color" value="#FF384C" onchange="updateBrandTheme()">
+      </div>
+
+      <div class="env-field">
+        <label>Store Brand Name</label>
+        <input type="text" id="env-name" value="Darmhie's Vault" oninput="updateBrandTheme()">
+      </div>
+
+      <div class="env-field">
+        <label>Location Variable</label>
+        <input type="text" id="env-location" value="New York, USA" oninput="updateBrandTheme()">
+      </div>
+
+      <div class="env-field">
+        <label>Currency Symbol</label>
+        <input type="text" id="env-currency" value="$" oninput="updateBrandTheme()">
+      </div>
+    </div>
+  </div>
+
+  <!-- CANVA SHOWCASE APP PREVIEWS -->
+  <div class="app-showcase">
+
+    <!-- SCREEN 1: ONBOARDING WITH FULL BACKGROUND PHOTO & DYNAMIC ISLAND -->
+    <div class="phone-mockup">
+      <!-- Dynamic Island Notch -->
+      <div class="dynamic-island">
+        <div class="camera-lens"></div>
+        <div style="width: 8px; height: 8px; background: #00FF66; border-radius: 50%; opacity: 0.8;"></div>
+      </div>
+
+      <!-- Translucent Status Bar Overlay -->
+      <div class="status-bar transparent-overlay">
+        <span>9:41</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-full"></i>
+        </div>
+      </div>
+
+      <div class="screen-onboarding-bg">
+        <!-- FULL BLEED HIGH-FASHION BACKGROUND PHOTO -->
+        <img 
+          src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800" 
+          class="onboarding-hero-bg" 
+          alt="Luxury Fashion Hero Background"
+        >
+
+        <div class="onboarding-gradient-overlay"></div>
+
+        <!-- TOP FLOATING TILES OVERLAY -->
+        <div class="top-floating-tiles">
+          <div class="glass-tile">
+            <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=300" alt="Jewelry">
+          </div>
+          <div class="glass-tile" style="grid-column: span 2;">
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=400" alt="Coat Model">
+          </div>
+        </div>
+
+        <!-- BOTTOM GLASS CONTAINER -->
+        <div class="onboarding-glass-card">
+          <div class="pill-brand-badge">
+            <i class="fa-solid fa-sparkles"></i>
+            <span id="brand-tag">Darmhie's Vault</span>
+          </div>
+
+          <h2 class="onboarding-headline-bg">
+            Your Shopping Destination for Everything
+          </h2>
+
+          <p class="onboarding-desc-bg">
+            Explore 50+ luxury dresses, 18k solid gold chains, Zambian emeralds, and glowing cosmetics elixirs.
+          </p>
+
+          <button class="btn-red-pill-bg">
+            <span>Let's Get Started</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+
+          <p class="signin-link-bg">
+            Already have an account? <strong>Sign In</strong>
+          </p>
+        </div>
+      </div>
+
+      <!-- iOS Home Indicator Handle -->
+      <div class="ios-home-indicator light"></div>
+    </div>
+
+    <!-- SCREEN 2: CANVA HOME DASHBOARD — iOS EDITION -->
+    <div class="phone-mockup">
+      <!-- Dynamic Island Notch -->
+      <div class="dynamic-island">
+        <div class="camera-lens"></div>
+      </div>
+
+      <div class="status-bar red">
+        <span>9:41</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-full"></i>
+        </div>
+      </div>
+
+      <div class="screen-home-ios">
+        <!-- CURVED iOS GRADIENT RED HEADER BLOCK -->
+        <div class="ios-curved-header-block">
+          <div class="header-top">
+            <div class="ios-location-chip">
+              <i class="fa-solid fa-location-dot"></i>
+              <span id="loc-text">New York, USA</span>
+              <i class="fa-solid fa-chevron-down" style="font-size: 8px;"></i>
+            </div>
+            <div class="ios-bell-btn">
+              <i class="fa-solid fa-bell"></i>
+              <span class="ios-bell-dot"></span>
+            </div>
+          </div>
+
+          <div class="ios-search-bar">
+            <i class="fa-solid fa-magnifying-glass" style="color: #A0A0B0; font-size: 13px;"></i>
+            <input type="text" class="search-input-field" placeholder="Search clothes, chains, serum...">
+            <div class="ios-square-filter">
+              <i class="fa-solid fa-sliders"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- #SPECIAL FOR YOU BANNER -->
+        <div class="section-box">
+          <div class="section-head">
+            <span class="section-title-text">#SpecialForYou</span>
+            <a href="#" class="see-all-btn">See All</a>
+          </div>
+
+          <div class="ios-promo-card">
+            <div>
+              <span class="promo-pill">Limited Time!</span>
+              <div class="promo-h">Get Special Offer<br><span>Up to 40%</span></div>
+              <button class="btn-claim-small">Claim</button>
+            </div>
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300" class="model-cutout" alt="Promo">
+          </div>
+        </div>
+
+        <!-- CATEGORIES CIRCLES -->
+        <div class="section-box">
+          <div class="section-head">
+            <span class="section-title-text">Category</span>
+            <a href="#" class="see-all-btn">See All</a>
+          </div>
+
+          <div class="categories-row">
+            <div class="cat-btn">
+              <div class="ios-cat-circle"><i class="fa-solid fa-shirt"></i></div>
+              <span class="cat-label">Clothes</span>
+            </div>
+            <div class="cat-btn">
+              <div class="ios-cat-circle"><i class="fa-solid fa-plug"></i></div>
+              <span class="cat-label">Electronics</span>
+            </div>
+            <div class="cat-btn">
+              <div class="ios-cat-circle"><i class="fa-solid fa-shoe-prints"></i></div>
+              <span class="cat-label">Shoes</span>
+            </div>
+            <div class="cat-btn">
+              <div class="ios-cat-circle"><i class="fa-solid fa-clock"></i></div>
+              <span class="cat-label">Watch</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- FLASH SALE SECTION -->
+        <div class="section-box">
+          <div class="section-head">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span class="section-title-text">Flash Sale</span>
+              <span class="ios-timer-badge"><i class="fa-solid fa-clock"></i> 00 : 12 : 58</span>
+            </div>
+            <a href="#" class="see-all-btn">See All</a>
+          </div>
+
+          <div class="pill-filters">
+            <span class="filter-pill">All</span>
+            <span class="filter-pill active">Newest</span>
+            <span class="filter-pill">Popular</span>
+            <span class="filter-pill">Clothes</span>
+          </div>
+
+          <div class="flash-products">
+            <div class="ios-flash-card">
+              <div class="wish-circle"><i class="fa-regular fa-heart"></i></div>
+              <img src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=300" class="flash-img" alt="Gown">
+              <div class="flash-title">Aurelia Emerald Velvet</div>
+              <div class="flash-meta">
+                <span class="flash-price"><span class="c-sym">$</span>120.00</span>
+                <span class="flash-star"><i class="fa-solid fa-star" style="color:#FFB800;"></i> 4.5</span>
+              </div>
+            </div>
+
+            <div class="ios-flash-card">
+              <div class="wish-circle"><i class="fa-solid fa-heart" style="color:var(--primary-color);"></i></div>
+              <img src="https://images.unsplash.com/photo-1630019852942-f89202989a59?q=80&w=300" class="flash-img" alt="Jewelry">
+              <div class="flash-title">18K Diamond Chandelier</div>
+              <div class="flash-meta">
+                <span class="flash-price"><span class="c-sym">$</span>195.00</span>
+                <span class="flash-star"><i class="fa-solid fa-star" style="color:#FFB800;"></i> 5.0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- iOS FROSTED GLASS BOTTOM NAVIGATION BAR -->
+        <div class="ios-bottom-nav">
+          <div class="nav-tab active">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+          </div>
+          <div class="nav-tab">
+            <i class="fa-regular fa-heart"></i>
+            <span>Wishlist</span>
+          </div>
+          <div class="nav-tab">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span>Cart</span>
+          </div>
+          <div class="nav-tab">
+            <i class="fa-solid fa-comment-dots"></i>
+            <span>Chat</span>
+          </div>
+          <div class="nav-tab">
+            <i class="fa-solid fa-user"></i>
+            <span>Profile</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- iOS Home Indicator Handle -->
+      <div class="ios-home-indicator"></div>
+    </div>
+
+    <!-- SCREEN 3: CANVA PRODUCT DETAILS PDP — iOS EDITION -->
+    <div class="phone-mockup">
+      <!-- Dynamic Island Notch -->
+      <div class="dynamic-island">
+        <div class="camera-lens"></div>
+      </div>
+
+      <div class="status-bar white">
+        <span>9:41</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-full"></i>
+        </div>
+      </div>
+
+      <div class="screen-pdp-ios">
+        <div class="ios-pdp-header">
+          <i class="fa-solid fa-arrow-left"></i>
+          <span style="font-weight: 800; font-size: 14px;">Product Details</span>
+          <i class="fa-regular fa-heart"></i>
+        </div>
+
+        <div class="pdp-hero-box">
+          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600" alt="Model Coat">
+        </div>
+
+        <div class="thumbs-overlay-strip">
+          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=200" class="thumb-preview" alt="t1">
+          <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=200" class="thumb-preview" alt="t2">
+          <img src="https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?q=80&w=200" class="thumb-preview" alt="t3">
+          <div class="thumb-more-badge">+10</div>
+        </div>
+
+        <div class="pdp-content-pad">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="pdp-category-text">Clothes</span>
+            <span style="font-size: 11px; font-weight: 800; color: #111; display: flex; align-items: center; gap: 3px;">
+              <i class="fa-solid fa-star" style="color: #FFB800;"></i> 4.5
+            </span>
+          </div>
+
+          <h2 class="pdp-heading-title">Light Brown Coat</h2>
+
+          <div style="margin-bottom: 14px;">
+            <span class="label-heading" style="margin-bottom: 2px;">Product Details</span>
+            <p class="pdp-paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua <strong>Read more</strong></p>
+          </div>
+
+          <span class="label-heading">Select Size</span>
+          <div class="size-boxes-list">
+            <div class="size-chip active">S</div>
+            <div class="size-chip">M</div>
+            <div class="size-chip">L</div>
+            <div class="size-chip">XL</div>
+            <div class="size-chip">XXL</div>
+            <div class="size-chip">XXXL</div>
+          </div>
+
+          <span class="label-heading">Select Color : Brown</span>
+          <div class="swatches-list">
+            <div class="swatch-circle" style="background: #E8D8C8;"></div>
+            <div class="swatch-circle" style="background: #D1A882;"></div>
+            <div class="swatch-circle" style="background: #A67C52;"></div>
+            <div class="swatch-circle" style="background: #6B4423;"></div>
+            <div class="swatch-circle" style="background: #111115;"></div>
+          </div>
+        </div>
+
+        <!-- iOS FROSTED GLASS STICKY BAR -->
+        <div class="ios-pdp-sticky-bar">
+          <div>
+            <span class="total-title">Total Price</span>
+            <div class="total-amount"><span class="c-sym">$</span>120.00</div>
+          </div>
+          <button class="btn-cart-red-ios">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span>Add to Cart</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- iOS Home Indicator Handle -->
+      <div class="ios-home-indicator"></div>
+    </div>
+
+  </div>
+
+  <script>
+    function updateBrandTheme() {
+      const color = document.getElementById('env-color').value;
+      const name = document.getElementById('env-name').value;
+      const location = document.getElementById('env-location').value;
+      const currency = document.getElementById('env-currency').value;
+
+      document.documentElement.style.setProperty('--primary-color', color);
+      document.getElementById('brand-tag').innerText = name;
+      document.getElementById('loc-text').innerText = location;
+
+      document.querySelectorAll('.c-sym').forEach(el => {
+        el.innerText = currency;
+      });
+    }
+  </script>
+
+</body>
+</html>
